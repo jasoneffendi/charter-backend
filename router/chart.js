@@ -5,6 +5,6 @@ const twitterController = require('../controllers/twitterController')
 
 router.get('/', chartController.getData)
 
-router.get('/trends', twitterController.getTrends)
+router.get('/trends/:WOEID', twitterController.getTrends)
 
 module.exports = router
