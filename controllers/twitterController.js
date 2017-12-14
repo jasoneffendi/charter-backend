@@ -38,7 +38,7 @@ class Twitter {
                 tweets.trends.forEach(trend => {
                     worksheet.addRow([trend.name, trend.query, trend.tweet_volume, tweets.as_of]);
                 })
-                workbook.xlsx.writeFile(`./mined_data/Twitter Trends(${tweets.locations[0].name})(${formattedDate}).xlsx`).then(function() {
+                workbook.xlsx.writeFile(`./mined_data/spreadsheet/Twitter Trends(${tweets.locations[0].name})(${formattedDate}).xlsx`).then(function() {
                     console.log("xls file is written.");
                     res.send('xls file is written')            
                 });
