@@ -10,7 +10,10 @@ class Chart {
     }
 
     static getData(req,res) {
-        workbook.xlsx.writeFile("./mined_data/some.xlsx").then(function() {
+        var worksheet = workbook.getWorksheet('My Sheet')
+        worksheet.addRow([3, 'Sam', new Date()]);
+        worksheet.addRow([4, 'Sammy', new Date()]);
+        workbook.xlsx.writeFile(`./mined_data/${Date.now()}.xlsx`).then(function() {
             console.log("xls file is written.");
             res.send('xls file is written')            
         });
