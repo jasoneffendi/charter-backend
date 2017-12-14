@@ -1,5 +1,6 @@
 var oauth = require('../models/twitterAuth')
 var Excel = require('exceljs');
+var fs = require('fs');
 var workbook = new Excel.Workbook();
 
 var newSheet = workbook.addWorksheet('Twitter Trends');
@@ -35,13 +36,22 @@ class Twitter {
               if (e) console.error(e); 
                 var tweets = JSON.parse(data)[0]
                 worksheet.addRow(['Trend', 'Query', 'Tweet Volume', 'Date']);
+                var dict = [];
                 tweets.trends.forEach(trend => {
                     worksheet.addRow([trend.name, trend.query, trend.tweet_volume, tweets.as_of]);
+                    var obj = {"Trend" : trend.name,
+                    "Query" : trend.query,
+                    "Tweet Volume" : trend.tweet_volume,
+                    "Date" : tweets.as_of
+                    }
+                    dict.push(obj)
                 })
                 workbook.xlsx.writeFile(`./mined_data/spreadsheet/Twitter Trends(${tweets.locations[0].name})(${formattedDate}).xlsx`).then(function() {
                     console.log("xls file is written.");
                     res.send('xls file is written')            
                 });
+                var dictstring = JSON.stringify(dict);
+                fs.writeFile(`./mined_data/json/Twitter Trends(${tweets.locations[0].name})(${formattedDate})` + ".json", dictstring);
             });
     }
 }
