@@ -12,10 +12,10 @@ class Chart {
         this.name = 'Chart'
     }
 
-    static getData(req,res) {
+    static getList(req,res) {
         console.log(jsonFiles)
         console.log(xlsxFiles)
-        
+
         // workbook.xlsx.readFile("./mined_data/spreadsheet/" + files[0])
         // .then(function(data) {
         //     // use workbook
