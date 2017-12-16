@@ -28,7 +28,8 @@ class Twitter {
                     }
                     dict.push(obj)
                 })
-                workbook.xlsx.writeFile(`./mined_data/spreadsheet/Twitter Trends(${tweets.locations[0].name})(${formattedDate}).xlsx`).then(function() {
+                workbook.xlsx.writeFile(`./mined_data/spreadsheet/Twitter Trends(${tweets.locations[0].name})(${formattedDate}).xlsx`)
+                .then(function() {
                     console.log(`Twitter Trends(${tweets.locations[0].name})(${formattedDate})` + 'has been saved')
                     var dictstring = JSON.stringify(dict);                
                     fs.writeFile(`./mined_data/json/Twitter Trends(${tweets.locations[0].name})(${formattedDate})` + ".json", dictstring, (err) => {
@@ -36,6 +37,33 @@ class Twitter {
                         res.send(`Twitter Trends(${tweets.locations[0].name})(${formattedDate})` + 'has been saved')
                     });                    
                 });
+            });
+    }
+
+    static searchTweets(req,res) {
+        oauth.get(
+            `https://api.twitter.com/1.1/search/tweets.json?q=%23saturdaymorning&result_type=mixed&count=100`,
+            '582131408-MdlJd3JcvSFQvCZYJC05w8RI6ukJvhSkl6w6h3tq', //test user token 
+            'ilKfbT0Yweu7r9QtzLwYdb6d8g7tMJK1yjLMvihrurXa6', //test user secret             
+            function (e, data){
+              if (e) console.error(e); 
+                var tweets = JSON.parse(data)
+                var dict = [];
+                tweets.statuses.forEach(status => {
+                    // worksheet.addRow([status.name, status.query, status.tweet_volume, tweets.as_of]);
+                    var obj = {
+                    'Text' : status.text,
+                    'Tweeter' : status.user.screen_name,
+                    'Tweeter description' : status.user.description,
+                    'Date' : status.created_at
+                    }
+                    dict.push(obj)
+                })
+                console.log(dict)
+                res.send({
+                    data: dict,
+                    status: 200
+                })
             });
     }
 }

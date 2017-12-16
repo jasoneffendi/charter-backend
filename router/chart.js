@@ -9,5 +9,7 @@ router.get('/trends/search/:fileName', chartController.readData)
 
 router.get('/trends/:WOEID', twitterController.getTrends)
 
+router.get('/tweets/:query', twitterController.searchTweets)
+
 
 module.exports = router
