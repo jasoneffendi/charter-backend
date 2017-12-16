@@ -3,8 +3,11 @@ const router = express.Router();
 const chartController = require('../controllers/chartController')
 const twitterController = require('../controllers/twitterController')
 
-router.get('/', chartController.getData)
+router.get('/', chartController.getList)
+
+router.get('/trends/search/:fileName', chartController.readData)
 
 router.get('/trends/:WOEID', twitterController.getTrends)
+
 
 module.exports = router
