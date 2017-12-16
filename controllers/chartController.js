@@ -22,19 +22,6 @@ class Chart {
                 })
             })
         });
-
-        // workbook.xlsx.readFile("./mined_data/spreadsheet/" + files[0])
-        // .then(function(data) {
-        //     // use workbook
-        //     console.log(data)
-        // });
-        // var worksheet = workbook.getWorksheet('My Sheet')
-        // worksheet.addRow([3, 'Sam', new Date()]);
-        // worksheet.addRow([4, 'Sammy', new Date()]);
-        // workbook.xlsx.writeFile(`./mined_data/${Date.now()}.xlsx`).then(function() {
-        //     console.log("xls file is written.");
-        //     res.send('xls file is written')            
-        // });
     }
 
     static readData(req,res) {
@@ -43,10 +30,22 @@ class Chart {
             fs.readFile('./mined_data/json/' + req.params.fileName, (err, data) => {
                 if(err) throw err;
                 console.log(JSON.parse(data))
-                res.send(JSON.parse(data))
+                res.send({
+                    data: JSON.parse(data),
+                    status: 200
+                })
+            })
+        } else if(req.params.fileName[req.params.fileName.length - 1] == "x"){
+            console.log('xlsx')
+            res.send({
+                data: req.params.fileName,
+                status: 200
             })
         } else {
-            console.log('xlsx')
+            res.send({
+                err: 'File not found',
+                status: 404
+            })
         }
     }
 }
